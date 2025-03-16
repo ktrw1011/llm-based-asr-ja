@@ -1,0 +1,104 @@
+[project]
+name = "llm-based-asr-ja"
+version = "0.1.0"
+description = "LLM Based ASR for Japanese ASR"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "jiwer>=3.1.0",
+    "librosa>=0.10.2.post1",
+    "loguru>=0.7.3",
+    "mojimoji>=0.0.13",
+    "numba>=0.60.0",
+    "peft>=0.14.0",
+    "python-dotenv>=1.0.1",
+    "sentencepiece>=0.2.0",
+    "torch>=2.6.0",
+    "torchaudio>=2.6.0",
+    "transformers>=4.48.2",
+    "trl>=0.15.2",
+    "typer>=0.15.2",
+    "wandb>=0.19.7",
+    "webdataset>=0.2.111",
+]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu124", marker = "sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[project.optional-dependencies]
+build = ["torch", "setuptools"]
+compile = ["flash-attn"]
+
+[tool.uv]
+no-build-isolation-package = ["flash-attn"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.5",
+    "mypy>=1.15.0",
+    "pre-commit>=4.1.0",
+    "ruff>=0.9.5",
+    "types-pyyaml>=6.0.12.20241230",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+ignore = [
+    "D",
+    "T20",
+    "RET504",
+    "EM101",
+    "EM102",
+    "ERA",
+    "TRY003",
+    "ANN401",
+    "S603",
+    "PD901",
+    "SLF001",
+]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_any_decorated = false
+disallow_any_generics = false
+disallow_any_unimported = false
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = false
+disallow_untyped_decorators = false
+ignore_errors = false
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+strict_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_no_return = true
+warn_unused_ignores = true
+color_output = true
+pretty = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_based_asr_ja"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
